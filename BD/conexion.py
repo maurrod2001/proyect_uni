@@ -10,8 +10,8 @@ class DAO():
                 host='localhost',
                 port=3306,
                 user='root',
-                password='123456',
-                db='universidad2'
+                password='',
+                db='test'
             )
         except Error as ex:
             print("Error al intentar la conexión: {0}".format(ex))

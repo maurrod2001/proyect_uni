@@ -68,7 +68,7 @@ def pedirDatosActualizacion(cursos):
 def pedirDatosEliminacion(cursos):
     listarCursos(cursos)
     existeCodigo = False
-    codigoEliminar = input("Ingrese el código del curso a eliminar: ")
+    codigoEliminar = input("Ingrese el código del curso a eliminar:\n ")
     for cur in cursos:
         if cur[0] == codigoEliminar:
             existeCodigo = True
