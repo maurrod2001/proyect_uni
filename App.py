@@ -31,8 +31,10 @@ def getAll():
         payload = []
         content = {}
         for result in rv:
-            content = {'id': result[0], 'fullname': result[1],
-                       'phone': result[2], 'email': result[3]}
+            content = {'Id_estudiante': result[0], 'Tipo_doc': result[1],
+                       'Num_doc': result[2], 'Nombre': result[3],
+                       'Apellido': result[4], 'Curso': result[5],
+                       'Estado': result[6], 'Fecha': result[7]}
             payload.append(content)
             content = {}
         return jsonify(payload)
@@ -63,16 +65,22 @@ def getAllById(id):
 
 
 #### ruta para crear un registro########
-@app.route('/add_contact', methods=['POST'])
-def add_contact():
+@app.route('/add_estudiante', methods=['POST'])
+def add_estudiante():
     try:
         if request.method == 'POST':
-            fullname = request.json['fullname']  # nombre
-            phone = request.json['phone']  # telefono
-            email = request.json['email']  # email
+            Id_estudiante = request.json['Id_estudiante']  # nombre
+            Tipo_doc = request.json['Tipo_doc']  # telefono
+            Num_doc = request.json['Num_doc']  # email
+            Nombre = request.json['Nombre']
+            Apellido = request.json['Apellido']
+            Curso = request.json['Curso']
+            Estado = request.json['Estado']
+            Fecha = request.json['Fecha']
             cur = mysql.connection.cursor()
             cur.execute(
-                "INSERT INTO contacts (fullname, phone, email) VALUES (%s,%s,%s)", (fullname, phone, email))
+                "INSERT INTO estudiante (Id_estudiante, Tipo_doc, Num_doc , Nombre , Apellido , Curso , Estado , Fecha) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+                 (Id_estudiante, Tipo_doc, Num_doc, Nombre, Apellido, Curso, Estado, Fecha))
             mysql.connection.commit()
             return jsonify({"informacion": "Registro exitoso"})
 
@@ -103,11 +111,11 @@ def update_contact(id):
         return jsonify({"informacion": e})
 
 
-@app.route('/delete/<id>', methods=['DELETE'])
-def delete_contact(id):
+@app.route('/delete_estudiante/<id>', methods=['DELETE'])
+def delete_estudiante(id):
     try:
         cur = mysql.connection.cursor()
-        cur.execute('DELETE FROM contacts WHERE id = %s', (id,))
+        cur.execute('DELETE FROM estudiante WHERE Id_estudiante = %s', (id,))
         mysql.connection.commit()
         return jsonify({"informacion": "Registro eliminado"})
     except Exception as e:
