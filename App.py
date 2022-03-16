@@ -12,7 +12,7 @@ CORS(app)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'flaskcrud'
+app.config['MYSQL_DB'] = 'proyect_uni'
 app.config['MYSQL_PORT'] = 3307
 mysql = MySQL(app)
 
@@ -25,7 +25,7 @@ app.secret_key = "mysecretkey"
 def getAll():
     try:
         cur = mysql.connection.cursor()
-        cur.execute('SELECT * FROM contacts')
+        cur.execute('SELECT * FROM estudiante')
         rv = cur.fetchall()
         cur.close()
         payload = []
