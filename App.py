@@ -20,7 +20,7 @@ mysql = MySQL(app)
 app.secret_key = "mysecretkey"
 
 
-# ruta para consultar todos los registros
+#! ruta para consultar todos los registros
 @app.route('/getAll', methods=['GET'])
 def getAll():
     try:
@@ -43,6 +43,26 @@ def getAll():
         return jsonify({"informacion": e})
 
 
+# # ruta para consultar todos los registros
+# @app.route('/getAll', methods=['GET'])
+# def getAll():
+#     try:
+#         cur = mysql.connection.cursor()
+#         cur.execute('SELECT * FROM contacts')
+#         rv = cur.fetchall()
+#         cur.close()
+#         payload = []
+#         content = {}
+#         for result in rv:
+#             content = {'id': result[0], 'fullname': result[1],
+#                        'phone': result[2], 'email': result[3]}
+#             payload.append(content)
+#             content = {}
+#         return jsonify(payload)
+#     except Exception as e:
+#         print(e)
+#         return jsonify({"informacion": e})
+
 # ruta para consultar por parametro
 @app.route('/getAllById/<id>', methods=['GET'])
 def getAllById(id):
@@ -55,7 +75,7 @@ def getAllById(id):
         content = {}
         for result in rv:
             content = {'id': result[0], 'fullname': result[1],
-                       'phone': result[2], 'email': result[3]}
+                     'phone': result[2], 'email': result[3]}
             payload.append(content)
             content = {}
         return jsonify(payload)
