@@ -20,7 +20,7 @@ mysql = MySQL(app)
 app.secret_key = "mysecretkey"
 
 
-#! ruta para consultar todos los registros
+#* ruta para consultar todos los registros
 @app.route('/getAll', methods=['GET'])
 def getAll():
     try:
@@ -43,39 +43,20 @@ def getAll():
         return jsonify({"informacion": e})
 
 
-# # ruta para consultar todos los registros
-# @app.route('/getAll', methods=['GET'])
-# def getAll():
-#     try:
-#         cur = mysql.connection.cursor()
-#         cur.execute('SELECT * FROM contacts')
-#         rv = cur.fetchall()
-#         cur.close()
-#         payload = []
-#         content = {}
-#         for result in rv:
-#             content = {'id': result[0], 'fullname': result[1],
-#                        'phone': result[2], 'email': result[3]}
-#             payload.append(content)
-#             content = {}
-#         return jsonify(payload)
-#     except Exception as e:
-#         print(e)
-#         return jsonify({"informacion": e})
-
-# ruta para consultar por parametro
 @app.route('/getAllById/<id>', methods=['GET'])
 def getAllById(id):
     try:
         cur = mysql.connection.cursor()
-        cur.execute('SELECT * FROM contacts WHERE id = %s', (id))
+        cur.execute('SELECT * FROM estudiante WHERE Id_estudiante = %s', (id))
         rv = cur.fetchall()
         cur.close()
         payload = []
         content = {}
         for result in rv:
-            content = {'id': result[0], 'fullname': result[1],
-                     'phone': result[2], 'email': result[3]}
+            content = {'Id_estudiante': result[0], 'Tipo_doc': result[1],
+                       'Num_doc': result[2], 'Nombre': result[3],
+                       'Apellido': result[4], 'Curso': result[5],
+                       'Estado': result[6], 'Fecha': result[7]}
             payload.append(content)
             content = {}
         return jsonify(payload)
