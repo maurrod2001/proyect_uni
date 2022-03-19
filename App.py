@@ -76,11 +76,12 @@ def add_usuario():
             Nombre = request.json['Nombre']
             Apellido = request.json['Apellido']
             Id_rol = request.json['Id_rol']
+            Estado = request.json['Estado']
             Fecha = request.json['Fecha']
             cur = mysql.connection.cursor()
             cur.execute(
-                "INSERT INTO usuario (Id_usuario, Tipo_doc, Num_doc , Nombre , Apellido , Id_rol  , Fecha) VALUES (%s,%s,%s,%s,%s,%s,%s)",
-                 (Id_usuario, Tipo_doc, Num_doc, Nombre, Apellido, Id_rol, Fecha))
+                "INSERT INTO usuario (Id_usuario, Tipo_doc, Num_doc , Nombre , Apellido , Id_rol , Estado , Fecha) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+                 (Id_usuario, Tipo_doc, Num_doc, Nombre, Apellido, Id_rol, Estado, Fecha))
             mysql.connection.commit()
             return jsonify({"informacion": "Registro exitoso"})
 
