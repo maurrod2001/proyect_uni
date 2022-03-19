@@ -25,7 +25,7 @@ app.secret_key = "mysecretkey"
 def getAll():
     try:
         cur = mysql.connection.cursor()
-        cur.execute('SELECT * FROM usuarios')
+        cur.execute('SELECT * FROM usuario')
         rv = cur.fetchall()
         cur.close()
         payload = []
@@ -47,7 +47,7 @@ def getAll():
 def getAllById(id):
     try:
         cur = mysql.connection.cursor()
-        cur.execute('SELECT * FROM ususarios WHERE Id_usuario = %s', (id))
+        cur.execute('SELECT * FROM usuario WHERE Id_usuario = %s', (id))
         rv = cur.fetchall()
         cur.close()
         payload = []
@@ -70,18 +70,17 @@ def getAllById(id):
 def add_usuario():
     try:
         if request.method == 'POST':
-            Id_estudiante = request.json['Id_usuario']  # nombre
+            Id_usuario = request.json['Id_usuario']  # nombre
             Tipo_doc = request.json['Tipo_doc']  # telefono
             Num_doc = request.json['Num_doc']  # email
             Nombre = request.json['Nombre']
             Apellido = request.json['Apellido']
             Id_rol = request.json['Id_rol']
-            Estado = request.json['Estado']
             Fecha = request.json['Fecha']
             cur = mysql.connection.cursor()
             cur.execute(
-                "INSERT INTO usuario (Id_usuario, Tipo_doc, Num_doc , Nombre , Apellido , Id_rol , Estado , Fecha) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
-                 (Id_estudiante, Tipo_doc, Num_doc, Nombre, Apellido, Id_rol, Estado, Fecha))
+                "INSERT INTO usuario (Id_usuario, Tipo_doc, Num_doc , Nombre , Apellido , Id_rol  , Fecha) VALUES (%s,%s,%s,%s,%s,%s,%s)",
+                 (Id_usuario, Tipo_doc, Num_doc, Nombre, Apellido, Id_rol, Fecha))
             mysql.connection.commit()
             return jsonify({"informacion": "Registro exitoso"})
 
