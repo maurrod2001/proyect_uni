@@ -20,7 +20,7 @@ mysql = MySQL(app)
 app.secret_key = "mysecretkey"
 
 
-# * --------usuario-------
+#!------------------------------usuario------------------------------
 @app.route('/getAll', methods=['GET'])
 def getAll():
     try:
@@ -124,7 +124,7 @@ def delete_usuario(id):
     except Exception as e:
         print(e)
         return jsonify({"informacion": e})
-# * --------roles --------
+#! --------------------------roles -----------------------------------
 
 
 @app.route('/add_rol', methods=['POST'])
@@ -145,7 +145,7 @@ def add_rol():
         print(e)
         return jsonify({"informacion": e})
 
-#* -------materia--------
+#! ---------------------------materia------------------------------
 
 @app.route('/getAllByMa/<id>', methods = ['GET'])
 
@@ -305,13 +305,31 @@ def add_estudiante():
         return jsonify({"informacion": e})
 
 
+@app.route('/update_estudiante/<id>',methods=['PUT'])
+def update_estudiante(id):
+    try:
+        Id_estudiante = request.json['Id_estudiante']
+        Id_usuario = request.json['Id_usuario']
+        Semestre = request.json['Semestre']
+        Estado = request.json['Estado']
+        Fecha = request.json['Fecha']
+        cur = mysql.connection.cursor()
+        cur.execute(""" UPDATE estudiante SET Id_estudiante = %s , Id_usuario = %s,Semestre = %s , Estado =%s , Fecha = %s WHERE Id_estudiante = %s; """,
+                    (Id_estudiante,Id_usuario,Semestre, Estado, Fecha, id))
+        mysql.connection.commit()
+        return jsonify({"informacion": "Registro actualizado"})
+    except Exception as e:
+        print(e)
+        return jsonify({"informacion": e})
 
 
 
 
 
-@app.route('/delete_estudte/<id>', methods=['DELETE'])
-def delete_materia(id):
+
+
+@app.route('/delete_estudiante/<id>', methods=['DELETE'])
+def delete_estudiante(id):
     try:
         cur = mysql.connection.cursor()
         cur.execute('DELETE FROM estudiante WHERE Id_estudiante = %s', (id,))
@@ -320,6 +338,108 @@ def delete_materia(id):
     except Exception as e:
         print(e)
         return jsonify({"informacion": e})
+
+
+
+#!-----------------------------profesor--------------------------------
+
+@app.route('/getAllPo', methods=['GET'])
+def getAllPo():
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute('SELECT * FROM profesor')
+        rv = cur.fetchall()
+        cur.close()
+        payload = []
+        content = {}
+        for result in rv:
+            content = {'Id_profesor': result[0], 'Id_usuario': result[1],
+                       'Facultad': result[2],
+                       'Estado': result[3], 'Fecha': result[4]}
+            payload.append(content)
+            content = {}
+        return jsonify(payload)
+    except Exception as e:
+        print(e)
+        return jsonify({"informacion": e})
+
+
+
+
+@app.route('/getAllByPo/<id>', methods=['GET'])
+def getAllByPo(id):
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute('SELECT * FROM profesor WHERE Id_profesor = %s', (id))
+        rv = cur.fetchall()
+        cur.close()
+        payload = []
+        content = {}
+        for result in rv:
+            content = {'Id_profesor': result[0], 'Id_usuario': result[1],
+                       'Facultad': result[2],
+                       'Estado': result[3], 'Fecha': result[4]}
+            payload.append(content)
+            content = {}
+        return jsonify(payload)
+    except Exception as e:
+        print(e)
+        return jsonify({"informacion": e})
+
+
+
+
+
+
+@app.route('/add_profesor', methods=['POST'])
+def add_profesor():
+    try:
+        if request.method == 'POST':
+            Id_profesor = request.json['Id_profesor']
+            Id_usuario = request.json['Id_usuario']
+            Facultad = request.json['Facultad']
+            Estado = request.json['Estado']
+            Fecha = request.json['Fecha']
+            cur = mysql.connection.cursor()
+            cur.execute("INSERT INTO profesor (Id_profesor,Id_usuario, Facultad, Estado, Fecha) VALUES (%s, %s, %s, %s, %s)",
+                        (Id_profesor ,Id_usuario, Facultad, Estado, Fecha))
+            mysql.connection.commit()
+            return jsonify({"informacion": "Registro exitoso"})
+    except Exception as e:
+        print(e)
+        return jsonify({"informacion": e})
+
+
+@app.route('/update_profesor/<id>',methods=['PUT'])
+def update_profesor(id):
+    try:
+        Id_profesor = request.json['Id_profesor']
+        Id_usuario = request.json['Id_usuario']
+        Facultad = request.json['Facultad']
+        Estado = request.json['Estado']
+        Fecha = request.json['Fecha']
+        cur = mysql.connection.cursor()
+        cur.execute(""" UPDATE profesor SET Id_profesor = %s , Id_usuario = %s,Facultad = %s , Estado =%s , Fecha = %s WHERE Id_profesor = %s; """,
+                    (Id_profesor,Id_usuario,Facultad, Estado, Fecha, id))
+        mysql.connection.commit()
+        return jsonify({"informacion": "Registro actualizado"})
+    except Exception as e:
+        print(e)
+        return jsonify({"informacion": e})
+
+
+
+@app.route('/delete_profesor/<id>', methods=['DELETE'])
+def delete_profesor(id):
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute('DELETE FROM profesor WHERE Id_profesor = %s', (id,))
+        mysql.connection.commit()
+        return jsonify({"informacion": "Registro eliminado"})
+    except Exception as e:
+        print(e)
+        return jsonify({"informacion": e})
+
 
 #! starting the app
 if __name__ == "__main__":
