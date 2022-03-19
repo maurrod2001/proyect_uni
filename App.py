@@ -109,10 +109,10 @@ def add_usuario():
 
 
 ######### ruta para actualizar################
-@app.route('/update/<id>', methods=['PUT'])
+@app.route('/update_usuario/<id>', methods=['PUT'])
 def update_usuario(id):
     try:
-        Id_estudiante = request.json['Id_usuario']  # nombre
+        Id_usuario = request.json['Id_usuario']  # nombre
         Tipo_doc = request.json['Tipo_doc']  # telefono
         Num_doc = request.json['Num_doc']  # email
         Nombre = request.json['Nombre']
@@ -121,7 +121,7 @@ def update_usuario(id):
         Estado = request.json['Estado']
         Fecha = request.json['Fecha']
         cur = mysql.connection.cursor()
-        cur.execute(""" UPDATE usuarios
+        cur.execute(""" UPDATE usuario
         SET Id_usuario = %s,
             Tipo_doc = %s,
             Num_doc = %s,
@@ -131,7 +131,7 @@ def update_usuario(id):
             Estado = %s,
             Fecha = %s,
             WHERE Id_usuario = %s
-        """,(Id_estudiante, Tipo_doc, Num_doc, Nombre, Apellido, Id_rol, Estado, Fecha, id))
+        """,(Id_usuario, Tipo_doc, Num_doc, Nombre, Apellido, Id_rol, Estado, Fecha, id))
         mysql.connection.commit()
         return jsonify({"informacion": "Registro actualizado"})
     except Exception as e:
