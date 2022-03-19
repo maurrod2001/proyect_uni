@@ -94,7 +94,7 @@ def add_usuario():
             Nombre = request.json['Nombre']
             Apellido = request.json['Apellido']
             Id_rol = request.json['Id_rol']
-            Estado = request.josn ['Estado']
+            Estado = request.json ['Estado']
             Fecha = request.json['Fecha']
             cur = mysql.connection.cursor()
             cur.execute(
