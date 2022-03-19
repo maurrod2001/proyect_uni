@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 19-03-2022 a las 17:37:44
+-- Tiempo de generación: 19-03-2022 a las 18:10:59
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -42,7 +42,7 @@ CREATE TABLE `estudiante` (
 CREATE TABLE `grupo` (
   `Id_grupo` int(11) NOT NULL,
   `Id_estudiante` int(11) NOT NULL,
-  `Estado` tinyint(1) DEFAULT 1,
+  `Estado` tinyint(1) DEFAULT NULL,
   `Fecha` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -55,7 +55,7 @@ CREATE TABLE `grupo` (
 CREATE TABLE `materia` (
   `Id_materia` int(11) NOT NULL,
   `Nombre` varchar(20) NOT NULL,
-  `Estado` tinyint(1) DEFAULT 1,
+  `Estado` tinyint(1) DEFAULT NULL,
   `Fecha` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -94,7 +94,7 @@ CREATE TABLE `proyecto` (
   `Id_grupo` int(11) NOT NULL,
   `Id_materia` int(11) NOT NULL,
   `Nombre` varchar(20) NOT NULL,
-  `Estado` tinyint(1) DEFAULT 1,
+  `Estado` tinyint(1) DEFAULT NULL,
   `Fechar` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -107,7 +107,7 @@ CREATE TABLE `proyecto` (
 CREATE TABLE `rol` (
   `Id_rol` int(11) NOT NULL,
   `Nombre` varchar(20) NOT NULL,
-  `Estado` tinyint(1) DEFAULT 1,
+  `Estado` tinyint(1) DEFAULT NULL,
   `Fecha` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -124,7 +124,7 @@ CREATE TABLE `usuario` (
   `Nombre` varchar(20) NOT NULL,
   `Apellido` varchar(20) NOT NULL,
   `Id_rol` int(11) NOT NULL,
-  `Estado` tinyint(1) DEFAULT 1,
+  `Estado` tinyint(1) DEFAULT NULL,
   `Fecha` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
