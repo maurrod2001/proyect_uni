@@ -65,6 +65,24 @@ def getAllById(id):
         return jsonify({"informacion": e})
 
 
+
+@app.route('/add_rol', methods = ['POST'])
+def add_rol():
+    try:
+        if request.method == 'POST':
+            Id_rol = request.json['Id_rol']
+            Nombre = request.json['Nombre']
+            Estado = request.json['Estado']
+            Fecha = request.json['Fecha']
+            cur = mysql.connection.cursor()
+            cur.execute("INSERT INTO rol (Id_rol, Nombre, Estado, Fecha) VALUES (%s, %s, %s, %s)", (Id_rol, Nombre, Estado, Fecha))
+            mysql.connection.commit()
+            return jsonify ({"informacion": "Registro exitoso"})
+
+    except Exception as e:
+        print(e)
+        return jsonify({"informacion": e})        
+
 #### ruta para crear un registro########
 @app.route('/add_usuario', methods=['POST'])
 def add_usuario():
@@ -76,10 +94,12 @@ def add_usuario():
             Nombre = request.json['Nombre']
             Apellido = request.json['Apellido']
             Id_rol = request.json['Id_rol']
-            Estado = request.json['Estado']
+            Estado = request.json ['Estado']
             Fecha = request.json['Fecha']
             cur = mysql.connection.cursor()
-            cur.execute("INSERT INTO usuario (Id_usuario, Tipo_doc, Num_doc , Nombre , Apellido , Id_rol , Estado , Fecha) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",(Id_usuario, Tipo_doc, Num_doc, Nombre, Apellido, Id_rol, Estado, Fecha))
+            cur.execute(
+                "INSERT INTO usuario (Id_usuario, Tipo_doc, Num_doc , Nombre , Apellido , Id_rol, Estado , Fecha) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+                 (Id_usuario, Tipo_doc, Num_doc, Nombre, Apellido, Id_rol, Estado, Fecha))
             mysql.connection.commit()
             return jsonify({"informacion": "Registro exitoso"})
 
