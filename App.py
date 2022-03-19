@@ -79,9 +79,7 @@ def add_usuario():
             Estado = request.json['Estado']
             Fecha = request.json['Fecha']
             cur = mysql.connection.cursor()
-            cur.execute(
-                "INSERT INTO usuario (Id_usuario, Tipo_doc, Num_doc , Nombre , Apellido , Id_rol , Estado , Fecha) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
-                 (Id_usuario, Tipo_doc, Num_doc, Nombre, Apellido, Id_rol, Estado, Fecha))
+            cur.execute("INSERT INTO usuario (Id_usuario, Tipo_doc, Num_doc , Nombre , Apellido , Id_rol , Estado , Fecha) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",(Id_usuario, Tipo_doc, Num_doc, Nombre, Apellido, Id_rol, Estado, Fecha))
             mysql.connection.commit()
             return jsonify({"informacion": "Registro exitoso"})
 
@@ -92,7 +90,7 @@ def add_usuario():
 
 ######### ruta para actualizar################
 @app.route('/update/<id>', methods=['PUT'])
-def update_contact(id):
+def update_usuario(id):
     try:
         Id_estudiante = request.json['Id_usuario']  # nombre
         Tipo_doc = request.json['Tipo_doc']  # telefono
@@ -121,11 +119,11 @@ def update_contact(id):
         return jsonify({"informacion": e})
 
 
-@app.route('/delete_estudiante/<id>', methods=['DELETE'])
-def delete_estudiante(id):
+@app.route('/delete_usuario/<id>', methods=['DELETE'])
+def delete_usuario(id):
     try:
         cur = mysql.connection.cursor()
-        cur.execute('DELETE FROM estudiante WHERE Id_estudiante = %s', (id,))
+        cur.execute('DELETE FROM usuario WHERE Id_usuario = %s', (id,))
         mysql.connection.commit()
         return jsonify({"informacion": "Registro eliminado"})
     except Exception as e:
