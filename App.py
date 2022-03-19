@@ -7,7 +7,7 @@ from flask_cors import CORS, cross_origin
 app = Flask(__name__)
 CORS(app)
 
-# Parcial 
+# Parcial
 # Mysql Connection
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -20,20 +20,20 @@ mysql = MySQL(app)
 app.secret_key = "mysecretkey"
 
 
-#* ruta para consultar todos los registros
+# * ruta para consultar todos los registros
 @app.route('/getAll', methods=['GET'])
 def getAll():
     try:
         cur = mysql.connection.cursor()
-        cur.execute('SELECT * FROM estudiante')
+        cur.execute('SELECT * FROM usuarios')
         rv = cur.fetchall()
         cur.close()
         payload = []
         content = {}
         for result in rv:
-            content = {'Id_estudiante': result[0], 'Tipo_doc': result[1],
+            content = {'Id_usuario': result[0], 'Tipo_doc': result[1],
                        'Num_doc': result[2], 'Nombre': result[3],
-                       'Apellido': result[4], 'Curso': result[5],
+                       'Apellido': result[4], 'Id_rol': result[5],
                        'Estado': result[6], 'Fecha': result[7]}
             payload.append(content)
             content = {}
@@ -47,15 +47,15 @@ def getAll():
 def getAllById(id):
     try:
         cur = mysql.connection.cursor()
-        cur.execute('SELECT * FROM estudiante WHERE Id_estudiante = %s', (id))
+        cur.execute('SELECT * FROM ususarios WHERE Id_usuario = %s', (id))
         rv = cur.fetchall()
         cur.close()
         payload = []
         content = {}
         for result in rv:
-            content = {'Id_estudiante': result[0], 'Tipo_doc': result[1],
+            content = {'Id_usuario': result[0], 'Tipo_doc': result[1],
                        'Num_doc': result[2], 'Nombre': result[3],
-                       'Apellido': result[4], 'Curso': result[5],
+                       'Apellido': result[4], 'Id_rol': result[5],
                        'Estado': result[6], 'Fecha': result[7]}
             payload.append(content)
             content = {}
@@ -66,22 +66,22 @@ def getAllById(id):
 
 
 #### ruta para crear un registro########
-@app.route('/add_estudiante', methods=['POST'])
-def add_estudiante():
+@app.route('/add_usuario', methods=['POST'])
+def add_usuario():
     try:
         if request.method == 'POST':
-            Id_estudiante = request.json['Id_estudiante']  # nombre
+            Id_estudiante = request.json['Id_usuario']  # nombre
             Tipo_doc = request.json['Tipo_doc']  # telefono
             Num_doc = request.json['Num_doc']  # email
             Nombre = request.json['Nombre']
             Apellido = request.json['Apellido']
-            Curso = request.json['Curso']
+            Id_rol = request.json['Id_rol']
             Estado = request.json['Estado']
             Fecha = request.json['Fecha']
             cur = mysql.connection.cursor()
             cur.execute(
-                "INSERT INTO estudiante (Id_estudiante, Tipo_doc, Num_doc , Nombre , Apellido , Curso , Estado , Fecha) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
-                 (Id_estudiante, Tipo_doc, Num_doc, Nombre, Apellido, Curso, Estado, Fecha))
+                "INSERT INTO usuario (Id_usuario, Tipo_doc, Num_doc , Nombre , Apellido , Id_rol , Estado , Fecha) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+                 (Id_estudiante, Tipo_doc, Num_doc, Nombre, Apellido, Id_rol, Estado, Fecha))
             mysql.connection.commit()
             return jsonify({"informacion": "Registro exitoso"})
 
@@ -94,17 +94,26 @@ def add_estudiante():
 @app.route('/update/<id>', methods=['PUT'])
 def update_contact(id):
     try:
-        fullname = request.json['fullname']
-        phone = request.json['phone']
-        email = request.json['email']
+        Id_estudiante = request.json['Id_usuario']  # nombre
+        Tipo_doc = request.json['Tipo_doc']  # telefono
+        Num_doc = request.json['Num_doc']  # email
+        Nombre = request.json['Nombre']
+        Apellido = request.json['Apellido']
+        Id_rol = request.json['Id_rol']
+        Estado = request.json['Estado']
+        Fecha = request.json['Fecha']
         cur = mysql.connection.cursor()
-        cur.execute("""
-        UPDATE contacts
-        SET fullname = %s,
-            email = %s,
-            phone = %s
-        WHERE id = %s
-        """, (fullname, email, phone, id))
+        cur.execute(""" UPDATE usuarios
+        SET Id_usuario = %s,
+            Tipo_doc = %s,
+            Num_doc = %s,
+            Nombre = %s,
+            Apellido = %s,
+            Id_rol = %s,
+            Estado = %s,
+            Fecha = %s,
+            WHERE Id_usuario = %s
+        """,(Id_estudiante, Tipo_doc, Num_doc, Nombre, Apellido, Id_rol, Estado, Fecha, id))
         mysql.connection.commit()
         return jsonify({"informacion": "Registro actualizado"})
     except Exception as e:
@@ -122,6 +131,20 @@ def delete_estudiante(id):
     except Exception as e:
         print(e)
         return jsonify({"informacion": e})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # starting the app
