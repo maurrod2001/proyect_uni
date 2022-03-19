@@ -20,7 +20,7 @@ mysql = MySQL(app)
 app.secret_key = "mysecretkey"
 
 
-# * ruta para consultar todos los registros
+# * --------usuario-------
 @app.route('/getAll', methods=['GET'])
 def getAll():
     try:
@@ -66,24 +66,10 @@ def getAllById(id):
 
 
 
-@app.route('/add_rol', methods = ['POST'])
-def add_rol():
-    try:
-        if request.method == 'POST':
-            Id_rol = request.json['Id_rol']
-            Nombre = request.json['Nombre']
-            Estado = request.json['Estado']
-            Fecha = request.json['Fecha']
-            cur = mysql.connection.cursor()
-            cur.execute("INSERT INTO rol (Id_rol, Nombre, Estado, Fecha) VALUES (%s, %s, %s, %s)", (Id_rol, Nombre, Estado, Fecha))
-            mysql.connection.commit()
-            return jsonify ({"informacion": "Registro exitoso"})
-
-    except Exception as e:
-        print(e)
-        return jsonify({"informacion": e})        
 
 #### ruta para crear un registro########
+
+
 @app.route('/add_usuario', methods=['POST'])
 def add_usuario():
     try:
@@ -94,12 +80,12 @@ def add_usuario():
             Nombre = request.json['Nombre']
             Apellido = request.json['Apellido']
             Id_rol = request.json['Id_rol']
-            Estado = request.json ['Estado']
+            Estado = request.json['Estado']
             Fecha = request.json['Fecha']
             cur = mysql.connection.cursor()
             cur.execute(
                 "INSERT INTO usuario (Id_usuario, Tipo_doc, Num_doc , Nombre , Apellido , Id_rol, Estado , Fecha) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
-                 (Id_usuario, Tipo_doc, Num_doc, Nombre, Apellido, Id_rol, Estado, Fecha))
+                (Id_usuario, Tipo_doc, Num_doc, Nombre, Apellido, Id_rol, Estado, Fecha))
             mysql.connection.commit()
             return jsonify({"informacion": "Registro exitoso"})
 
@@ -121,17 +107,7 @@ def update_usuario(id):
         Estado = request.json['Estado']
         Fecha = request.json['Fecha']
         cur = mysql.connection.cursor()
-        cur.execute(""" UPDATE usuario
-        SET Id_usuario = %s,
-            Tipo_doc = %s,
-            Num_doc = %s,
-            Nombre = %s,
-            Apellido = %s,
-            Id_rol = %s,
-            Estado = %s,
-            Fecha = %s,
-            WHERE Id_usuario = %s
-        """,(Id_usuario, Tipo_doc, Num_doc, Nombre, Apellido, Id_rol, Estado, Fecha, id))
+        cur.execute(""" UPDATE usuario SET Id_usuario = %s , Tipo_doc = %s , Num_doc = %s , Nombre = %s , Apellido= %s , Id_rol = %s ,Estado =%s , Fecha = %s WHERE Id_usuario = %s; """ , (Id_usuario, Tipo_doc, Num_doc, Nombre, Apellido, Id_rol, Estado, Fecha, id))
         mysql.connection.commit()
         return jsonify({"informacion": "Registro actualizado"})
     except Exception as e:
@@ -149,6 +125,26 @@ def delete_usuario(id):
     except Exception as e:
         print(e)
         return jsonify({"informacion": e})
+#* --------roles --------
+
+
+@app.route('/add_rol', methods=['POST'])
+def add_rol():
+    try:
+        if request.method == 'POST':
+            Id_rol = request.json['Id_rol']
+            Nombre = request.json['Nombre']
+            Estado = request.json['Estado']
+            Fecha = request.json['Fecha']
+            cur = mysql.connection.cursor()
+            cur.execute("INSERT INTO rol (Id_rol, Nombre, Estado, Fecha) VALUES (%s, %s, %s, %s)",
+                        (Id_rol, Nombre, Estado, Fecha))
+            mysql.connection.commit()
+            return jsonify({"informacion": "Registro exitoso"})
+
+    except Exception as e:
+        print(e)
+        return jsonify({"informacion": e})
 
 
 
@@ -158,13 +154,6 @@ def delete_usuario(id):
 
 
 
-
-
-
-
-
-
-
-# starting the app
+#! starting the app
 if __name__ == "__main__":
     app.run(port=3000, debug=True)
