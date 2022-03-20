@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 20-03-2022 a las 01:27:36
+-- Tiempo de generación: 20-03-2022 a las 04:26:33
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -41,7 +41,10 @@ CREATE TABLE `estudiante` (
 
 INSERT INTO `estudiante` (`Id_estudiante`, `Id_usuario`, `Semestre`, `Estado`, `Fecha`) VALUES
 (1, 1, '6', 1, '2019-03-22'),
-(2, 2, '5', 1, '2019-03-22');
+(2, 2, '5', 1, '2019-03-22'),
+(3, 3, '3', 1, '2019-03-22'),
+(7, 7, '7', 1, '2019-03-22'),
+(8, 8, '8', 1, '2019-03-22');
 
 -- --------------------------------------------------------
 
@@ -55,6 +58,15 @@ CREATE TABLE `grupo` (
   `Fecha` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `grupo`
+--
+
+INSERT INTO `grupo` (`Id_grupo`, `Estado`, `Fecha`) VALUES
+(1, 1, '2022-03-19'),
+(2, 1, '2022-03-19'),
+(3, 1, '2022-03-19');
+
 -- --------------------------------------------------------
 
 --
@@ -63,9 +75,19 @@ CREATE TABLE `grupo` (
 
 CREATE TABLE `grupo_estu` (
   `Id_grupo_estu` int(11) NOT NULL,
-  `Id_grupo` int(11) DEFAULT NULL,
+  `Id_grupo` int(11) NOT NULL,
   `Id_estudiante` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `grupo_estu`
+--
+
+INSERT INTO `grupo_estu` (`Id_grupo_estu`, `Id_grupo`, `Id_estudiante`) VALUES
+(1, 1, 1),
+(2, 2, 2),
+(3, 3, 3),
+(4, 1, 7);
 
 -- --------------------------------------------------------
 
@@ -97,8 +119,15 @@ INSERT INTO `materia` (`Id_materia`, `Nombre`, `Estado`, `Fecha`) VALUES
 CREATE TABLE `nota` (
   `Id_nota` int(11) NOT NULL,
   `Id_proyecto` int(11) NOT NULL,
-  `Nota` float(1,1) DEFAULT NULL
+  `Nota` double(6,1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `nota`
+--
+
+INSERT INTO `nota` (`Id_nota`, `Id_proyecto`, `Nota`) VALUES
+(1, 1, 5.0);
 
 -- --------------------------------------------------------
 
@@ -135,6 +164,13 @@ CREATE TABLE `proyecto` (
   `Estado` tinyint(1) DEFAULT NULL,
   `Fecha` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `proyecto`
+--
+
+INSERT INTO `proyecto` (`Id_proyecto`, `Id_grupo`, `Id_materia`, `Nombre`, `Estado`, `Fecha`) VALUES
+(1, 1, 1, 'smart gardens', 1, '2019-03-22');
 
 -- --------------------------------------------------------
 
@@ -182,7 +218,10 @@ CREATE TABLE `usuario` (
 INSERT INTO `usuario` (`Id_usuario`, `Tipo_doc`, `Num_doc`, `Nombre`, `Apellido`, `Id_rol`, `Estado`, `Fecha`) VALUES
 (1, 'cc', 346789784, 'sam', 'ying', 1, 1, '2019-02-22'),
 (2, 'ti', 35455555, 'miriam', 'gonzales', 1, 1, '2019-02-22'),
+(3, 'cc', 23333340, 'martin', 'grande', 1, 1, '2019-02-22'),
 (6, 'cc', 2248590, 'bryan', 'myers', 2, 1, '2019-02-22'),
+(7, 'cc', 22484440, 'berto', 'marimba', 1, 1, '2019-02-22'),
+(8, 'cc', 22222240, 'marcos', 'great', 1, 1, '2019-02-22'),
 (35, 'ctac', 355, 'asdfa', 'goesdgña', 3, 1, '2019-02-22');
 
 --
@@ -261,13 +300,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `estudiante`
 --
 ALTER TABLE `estudiante`
-  MODIFY `Id_estudiante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id_estudiante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `grupo_estu`
 --
 ALTER TABLE `grupo_estu`
-  MODIFY `Id_grupo_estu` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id_grupo_estu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `materia`
@@ -279,7 +318,7 @@ ALTER TABLE `materia`
 -- AUTO_INCREMENT de la tabla `nota`
 --
 ALTER TABLE `nota`
-  MODIFY `Id_nota` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id_nota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `profesor`
@@ -291,7 +330,7 @@ ALTER TABLE `profesor`
 -- AUTO_INCREMENT de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
-  MODIFY `Id_proyecto` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id_proyecto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
