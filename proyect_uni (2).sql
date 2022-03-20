@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 19-03-2022 a las 18:10:59
+-- Tiempo de generación: 20-03-2022 a las 01:27:36
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -30,8 +30,18 @@ SET time_zone = "+00:00";
 CREATE TABLE `estudiante` (
   `Id_estudiante` int(11) NOT NULL,
   `Id_usuario` int(11) NOT NULL,
-  `Semestre` varchar(20) NOT NULL
+  `Semestre` varchar(20) NOT NULL,
+  `Estado` tinyint(1) DEFAULT NULL,
+  `Fecha` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `estudiante`
+--
+
+INSERT INTO `estudiante` (`Id_estudiante`, `Id_usuario`, `Semestre`, `Estado`, `Fecha`) VALUES
+(1, 1, '6', 1, '2019-03-22'),
+(2, 2, '5', 1, '2019-03-22');
 
 -- --------------------------------------------------------
 
@@ -41,9 +51,20 @@ CREATE TABLE `estudiante` (
 
 CREATE TABLE `grupo` (
   `Id_grupo` int(11) NOT NULL,
-  `Id_estudiante` int(11) NOT NULL,
   `Estado` tinyint(1) DEFAULT NULL,
   `Fecha` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `grupo_estu`
+--
+
+CREATE TABLE `grupo_estu` (
+  `Id_grupo_estu` int(11) NOT NULL,
+  `Id_grupo` int(11) DEFAULT NULL,
+  `Id_estudiante` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -58,6 +79,14 @@ CREATE TABLE `materia` (
   `Estado` tinyint(1) DEFAULT NULL,
   `Fecha` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `materia`
+--
+
+INSERT INTO `materia` (`Id_materia`, `Nombre`, `Estado`, `Fecha`) VALUES
+(1, 'biologia', 1, '2019-03-22'),
+(2, 'literatura', 1, '2019-03-22');
 
 -- --------------------------------------------------------
 
@@ -80,8 +109,17 @@ CREATE TABLE `nota` (
 CREATE TABLE `profesor` (
   `Id_profesor` int(11) NOT NULL,
   `Id_usuario` int(11) NOT NULL,
-  `Facultad` varchar(20) NOT NULL
+  `Facultad` varchar(20) NOT NULL,
+  `Estado` tinyint(1) DEFAULT NULL,
+  `Fecha` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `profesor`
+--
+
+INSERT INTO `profesor` (`Id_profesor`, `Id_usuario`, `Facultad`, `Estado`, `Fecha`) VALUES
+(1, 6, 'leyes y derecho', 1, '2019-03-22');
 
 -- --------------------------------------------------------
 
@@ -95,7 +133,7 @@ CREATE TABLE `proyecto` (
   `Id_materia` int(11) NOT NULL,
   `Nombre` varchar(20) NOT NULL,
   `Estado` tinyint(1) DEFAULT NULL,
-  `Fechar` date DEFAULT NULL
+  `Fecha` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -110,6 +148,15 @@ CREATE TABLE `rol` (
   `Estado` tinyint(1) DEFAULT NULL,
   `Fecha` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `rol`
+--
+
+INSERT INTO `rol` (`Id_rol`, `Nombre`, `Estado`, `Fecha`) VALUES
+(1, 'Estudiante', 1, '0000-00-00'),
+(2, 'profesor ', 1, '0000-00-00'),
+(3, 'admin', 1, '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -129,6 +176,16 @@ CREATE TABLE `usuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`Id_usuario`, `Tipo_doc`, `Num_doc`, `Nombre`, `Apellido`, `Id_rol`, `Estado`, `Fecha`) VALUES
+(1, 'cc', 346789784, 'sam', 'ying', 1, 1, '2019-02-22'),
+(2, 'ti', 35455555, 'miriam', 'gonzales', 1, 1, '2019-02-22'),
+(6, 'cc', 2248590, 'bryan', 'myers', 2, 1, '2019-02-22'),
+(35, 'ctac', 355, 'asdfa', 'goesdgña', 3, 1, '2019-02-22');
+
+--
 -- Índices para tablas volcadas
 --
 
@@ -143,7 +200,14 @@ ALTER TABLE `estudiante`
 -- Indices de la tabla `grupo`
 --
 ALTER TABLE `grupo`
-  ADD PRIMARY KEY (`Id_grupo`),
+  ADD PRIMARY KEY (`Id_grupo`);
+
+--
+-- Indices de la tabla `grupo_estu`
+--
+ALTER TABLE `grupo_estu`
+  ADD PRIMARY KEY (`Id_grupo_estu`),
+  ADD KEY `Id_grupo` (`Id_grupo`),
   ADD KEY `Id_estudiante` (`Id_estudiante`);
 
 --
@@ -197,19 +261,19 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `estudiante`
 --
 ALTER TABLE `estudiante`
-  MODIFY `Id_estudiante` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id_estudiante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `grupo`
+-- AUTO_INCREMENT de la tabla `grupo_estu`
 --
-ALTER TABLE `grupo`
-  MODIFY `Id_grupo` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `grupo_estu`
+  MODIFY `Id_grupo_estu` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `materia`
 --
 ALTER TABLE `materia`
-  MODIFY `Id_materia` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id_materia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `nota`
@@ -221,7 +285,7 @@ ALTER TABLE `nota`
 -- AUTO_INCREMENT de la tabla `profesor`
 --
 ALTER TABLE `profesor`
-  MODIFY `Id_profesor` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id_profesor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `proyecto`
@@ -233,13 +297,13 @@ ALTER TABLE `proyecto`
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `Id_rol` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `Id_usuario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1334524;
 
 --
 -- Restricciones para tablas volcadas
@@ -252,10 +316,11 @@ ALTER TABLE `estudiante`
   ADD CONSTRAINT `estudiante_ibfk_1` FOREIGN KEY (`Id_usuario`) REFERENCES `usuario` (`Id_usuario`);
 
 --
--- Filtros para la tabla `grupo`
+-- Filtros para la tabla `grupo_estu`
 --
-ALTER TABLE `grupo`
-  ADD CONSTRAINT `grupo_ibfk_1` FOREIGN KEY (`Id_estudiante`) REFERENCES `estudiante` (`Id_estudiante`);
+ALTER TABLE `grupo_estu`
+  ADD CONSTRAINT `grupo_estu_ibfk_1` FOREIGN KEY (`Id_grupo`) REFERENCES `grupo` (`Id_grupo`),
+  ADD CONSTRAINT `grupo_estu_ibfk_2` FOREIGN KEY (`Id_estudiante`) REFERENCES `estudiante` (`Id_estudiante`);
 
 --
 -- Filtros para la tabla `nota`
