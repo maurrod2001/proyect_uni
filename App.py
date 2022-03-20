@@ -439,7 +439,7 @@ def delete_profesor(id):
     except Exception as e:
         print(e)
         return jsonify({"informacion": e})
-
+#fvneovnerpovnerpovnerpvoenrmvpo
 
 #! starting the app
 if __name__ == "__main__":
