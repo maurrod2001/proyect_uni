@@ -9,6 +9,12 @@ CORS(app)
 
 # Parcial
 # Mysql Connection
+#! profesor nos vimos en la 
+#! necesidad de cambiar el puerto
+#! de xampp para que no se bloquera 
+#! con el puerto de workbench 
+#! el puerto es :
+#? PORT:3307 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
