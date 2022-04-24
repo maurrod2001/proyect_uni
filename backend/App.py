@@ -9,12 +9,12 @@ CORS(app)
 
 # Parcial
 # Mysql Connection
-#! profesor nos vimos en la 
+#! profesor nos vimos en la
 #! necesidad de cambiar el puerto
-#! de xampp para que no se bloquera 
-#! con el puerto de workbench 
+#! de xampp para que no se bloquera
+#! con el puerto de workbench
 #! el puerto es :
-#? PORT:3307 
+# ? PORT:3307
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
@@ -431,6 +431,8 @@ def delete_profesor(id):
 # fvneovnerpovnerpovnerpvoenrmvpo
 
 #!---------------------------------grupo--------------------------------------
+
+
 @app.route('/getAllGru', methods=['GET'])
 def getAllGru():
     try:
@@ -441,13 +443,15 @@ def getAllGru():
         payload = []
         content = {}
         for result in rv:
-            content = {'Id_grupo': result[0], 'Estado': result[1], 'Fecha': result[2]}
+            content = {'Id_grupo': result[0],
+                       'Estado': result[1], 'Fecha': result[2]}
             payload.append(content)
             content = {}
         return jsonify(payload)
     except Exception as e:
         print(e)
         return jsonify({"informacion": e})
+
 
 @app.route('/getAllByGru/<id>', methods=['GET'])
 def getAllByGru(id):
@@ -459,7 +463,8 @@ def getAllByGru(id):
         payload = []
         content = {}
         for result in rv:
-            content = {'Id_grupo': result[0],'Estado': result[1], 'Fecha': result[2]}
+            content = {'Id_grupo': result[0],
+                       'Estado': result[1], 'Fecha': result[2]}
             payload.append(content)
             content = {}
         return jsonify(payload)
@@ -485,7 +490,7 @@ def add_grupo():
         return jsonify({"informacion": e})
 
 
-@app.route('/update_grupo/<id>',methods=['PUT'])
+@app.route('/update_grupo/<id>', methods=['PUT'])
 def update_grupo(id):
     try:
         Id_grupo = request.json['Id_grupo']
@@ -499,6 +504,7 @@ def update_grupo(id):
     except Exception as e:
         print(e)
         return jsonify({"informacion": e})
+
 
 @app.route('/delete_grupo/<id>', methods=['DELETE'])
 def delete_grupo(id):
@@ -523,13 +529,15 @@ def getAllGs():
         payload = []
         content = {}
         for result in rv:
-            content = {'Id_grupo_estu': result[0],'Id_grupo': result[1], 'Id_estudiante': result[2]}
+            content = {
+                'Id_grupo_estu': result[0], 'Id_grupo': result[1], 'Id_estudiante': result[2]}
             payload.append(content)
             content = {}
         return jsonify(payload)
     except Exception as e:
         print(e)
         return jsonify({"informacion": e})
+
 
 @app.route('/getAllByGs/<id>', methods=['GET'])
 def getAllByGs(id):
@@ -541,14 +549,14 @@ def getAllByGs(id):
         payload = []
         content = {}
         for result in rv:
-            content = {'Id_grupo_estu': result[0],'Id_grupo': result[1], 'Id_estudiante': result[2]}
+            content = {
+                'Id_grupo_estu': result[0], 'Id_grupo': result[1], 'Id_estudiante': result[2]}
             payload.append(content)
             content = {}
         return jsonify(payload)
     except Exception as e:
         print(e)
         return jsonify({"informacion": e})
-
 
 
 @app.route("/add_gs", methods=['POST'])
@@ -567,7 +575,8 @@ def add_gs():
         print(e)
         return jsonify({"informacion": e})
 
-@app.route('/update_gs/<id>',methods=['PUT'])
+
+@app.route('/update_gs/<id>', methods=['PUT'])
 def update_gs(id):
     try:
         Id_grupo_estu = request.json['Id_grupo_estu']
@@ -575,12 +584,13 @@ def update_gs(id):
         Id_estudiante = request.json['Id_estudiante']
         cur = mysql.connection.cursor()
         cur.execute(""" UPDATE grupo_estu SET Id_grupo_estu = %s , Id_grupo =%s , Id_estudiante = %s WHERE Id_grupo_estu = %s; """,
-                    (Id_grupo_estu ,Id_grupo, Id_estudiante, id))
+                    (Id_grupo_estu, Id_grupo, Id_estudiante, id))
         mysql.connection.commit()
         return jsonify({"informacion": "Registro actualizado"})
     except Exception as e:
         print(e)
         return jsonify({"informacion": e})
+
 
 @app.route('/delete_gs/<id>', methods=['DELETE'])
 def delete_gs(id):
@@ -594,6 +604,8 @@ def delete_gs(id):
         return jsonify({"informacion": e})
 
 #!--------------------------proyecto----------------------
+
+
 @app.route('/getAllPy', methods=['GET'])
 def getAllPy():
     try:
@@ -604,7 +616,8 @@ def getAllPy():
         payload = []
         content = {}
         for result in rv:
-            content = {'Id_proyecto': result[0],'Id_grupo': result[1],'Id_materia': result[2], 'Nombre' : result[3], 'Estado': result[4], 'Fecha': result[5]}
+            content = {'Id_proyecto': result[0], 'Id_grupo': result[1], 'Id_materia': result[2],
+                       'Nombre': result[3], 'Estado': result[4], 'Fecha': result[5]}
             payload.append(content)
             content = {}
         return jsonify(payload)
@@ -623,7 +636,7 @@ def getAllByPy(id):
         payload = []
         content = {}
         for result in rv:
-            content = {'Id_proyecto': result[0], 'Id_grupo': result[1],'Id_materia': result[2],
+            content = {'Id_proyecto': result[0], 'Id_grupo': result[1], 'Id_materia': result[2],
                        'Nombre': result[3],
                        'Estado': result[4], 'Fecha': result[5]}
             payload.append(content)
@@ -632,7 +645,6 @@ def getAllByPy(id):
     except Exception as e:
         print(e)
         return jsonify({"informacion": e})
-
 
 
 @app.route('/add_py', methods=['POST'])
@@ -654,7 +666,8 @@ def add_py():
         print(e)
         return jsonify({"informacion": e})
 
-@app.route('/update_py/<id>',methods=['PUT'])
+
+@app.route('/update_py/<id>', methods=['PUT'])
 def update_py(id):
     try:
         Id_proyecto = request.json['Id_proyecto']
@@ -685,6 +698,7 @@ def delete_py(id):
         return jsonify({"informacion": e})
 #!----------------------nota----------------------
 
+
 @app.route('/getAllNo', methods=['GET'])
 def getAllNo():
     try:
@@ -695,13 +709,15 @@ def getAllNo():
         payload = []
         content = {}
         for result in rv:
-            content = {'Id_nota': result[0],'Id_proyecto': result[1], 'Nota': result[2]}
+            content = {
+                'Id_nota': result[0], 'Id_proyecto': result[1], 'Nota': result[2]}
             payload.append(content)
             content = {}
         return jsonify(payload)
     except Exception as e:
         print(e)
         return jsonify({"informacion": e})
+
 
 @app.route('/getAllByNo/<id>', methods=['GET'])
 def getAllByNo(id):
@@ -713,7 +729,8 @@ def getAllByNo(id):
         payload = []
         content = {}
         for result in rv:
-            content = {'Id_nota': result[0],'Id_proyecto': result[1], 'Nota': result[2]}
+            content = {
+                'Id_nota': result[0], 'Id_proyecto': result[1], 'Nota': result[2]}
             payload.append(content)
             content = {}
         return jsonify(payload)
@@ -731,14 +748,15 @@ def add_nota():
             Nota = request.json['Nota']
             cur = mysql.connection.cursor()
             cur.execute("INSERT INTO nota (Id_nota, Id_proyecto, Nota) VALUES (%s, %s, %s)",
-                        (Id_nota ,Id_proyecto, Nota))
+                        (Id_nota, Id_proyecto, Nota))
             mysql.connection.commit()
             return jsonify({"informacion": "Registro exitoso"})
     except Exception as e:
         print(e)
         return jsonify({"informacion": e})
 
-@app.route('/update_no/<id>',methods=['PUT'])
+
+@app.route('/update_no/<id>', methods=['PUT'])
 def update_no(id):
     try:
         Id_nota = request.json['Id_nota']
@@ -746,7 +764,7 @@ def update_no(id):
         Nota = request.json['Nota']
         cur = mysql.connection.cursor()
         cur.execute(""" UPDATE nota SET Id_nota = %s , Id_proyecto =%s , Nota = %s WHERE Id_nota = %s; """,
-                    (Id_nota ,Id_proyecto, Nota, id))
+                    (Id_nota, Id_proyecto, Nota, id))
         mysql.connection.commit()
         return jsonify({"informacion": "Registro actualizado"})
     except Exception as e:
@@ -764,6 +782,7 @@ def delete_no(id):
     except Exception as e:
         print(e)
         return jsonify({"informacion": e})
+
 
 #! starting the app
 if __name__ == "__main__":
